@@ -222,8 +222,8 @@ Resources:
   VPC:
     Type: 'AWS::EC2::VPC'
     Properties:
-      EnableDnsSupport: 'true'
-      EnableDnsHostnames: 'true'
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
       CidrBlock: 10.0.0.0/16
       Tags: 
         - 
@@ -258,9 +258,9 @@ Resources:
       NetworkInterfaces:
         - GroupSet:
             - !Ref WebServerSecurityGroup
-          AssociatePublicIpAddress: 'true'
+          AssociatePublicIpAddress: true
           DeviceIndex: '0'
-          DeleteOnTermination: 'true'
+          DeleteOnTermination: true
           SubnetId: !Ref PublicSubnet
       UserData: !Base64 
         'Fn::Join':
@@ -325,8 +325,8 @@ Resources:
       GroupDescription: Allow access from HTTP and SSH traffic
       SecurityGroupIngress:
         - IpProtocol: tcp
-          FromPort: '80'
-          ToPort: '80'
+          FromPort: 80
+          ToPort: 80
           CidrIp: 0.0.0.0/0
       SecurityGroupEgress:
         - IpProtocol: tcp
@@ -370,8 +370,6 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 57539213-4c7f-46e5-bb3d-cbea37351124
-    DependsOn:
-      - InternetGateway
   SubnetRouteTableAssociation:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
