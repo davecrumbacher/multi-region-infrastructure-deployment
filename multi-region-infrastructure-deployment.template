@@ -550,6 +550,7 @@ Resources:
               commands:
                 - echo Starting cfn_nag scanning `date` in `pwd`
                 #- cfn_nag --fail-on-warnings $TEMPLATE_PATH
+                - cfn_nag $TEMPLATE_PATH
                 - echo Completed cfn_nag scanning `date`
           artifacts:
             files: '*'
