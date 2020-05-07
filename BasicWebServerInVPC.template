@@ -50,6 +50,8 @@ Metadata:
         - 6e4a5489-2846-4098-aab7-13976004eea7
         - 6e4a5489-2846-4098-aab7-13976004eea7
         - 6e4a5489-2846-4098-aab7-13976004eea7
+        - 6e4a5489-2846-4098-aab7-13976004eea7
+        - 6e4a5489-2846-4098-aab7-13976004eea7
     5a925519-2a31-4262-9965-62479a2fb193:
       size:
         width: 60
@@ -61,6 +63,8 @@ Metadata:
       parent: 418ee446-f01f-4915-a0fa-4cbf12ce3c55
       embeds: []
       iscontainedinside:
+        - 418ee446-f01f-4915-a0fa-4cbf12ce3c55
+        - 418ee446-f01f-4915-a0fa-4cbf12ce3c55
         - 418ee446-f01f-4915-a0fa-4cbf12ce3c55
         - 418ee446-f01f-4915-a0fa-4cbf12ce3c55
         - 418ee446-f01f-4915-a0fa-4cbf12ce3c55
@@ -98,6 +102,8 @@ Metadata:
       parent: 6e4a5489-2846-4098-aab7-13976004eea7
       embeds: []
       iscontainedinside:
+        - 6e4a5489-2846-4098-aab7-13976004eea7
+        - 6e4a5489-2846-4098-aab7-13976004eea7
         - 6e4a5489-2846-4098-aab7-13976004eea7
         - 6e4a5489-2846-4098-aab7-13976004eea7
         - 6e4a5489-2846-4098-aab7-13976004eea7
@@ -169,6 +175,8 @@ Metadata:
         - 6e4a5489-2846-4098-aab7-13976004eea7
         - 6e4a5489-2846-4098-aab7-13976004eea7
         - 6e4a5489-2846-4098-aab7-13976004eea7
+        - 6e4a5489-2846-4098-aab7-13976004eea7
+        - 6e4a5489-2846-4098-aab7-13976004eea7
     57539213-4c7f-46e5-bb3d-cbea37351124:
       size:
         width: 60
@@ -180,6 +188,8 @@ Metadata:
       parent: 0dca0a5e-43bf-4e4e-b6ed-3435236b48e6
       embeds: []
       iscontainedinside:
+        - 0dca0a5e-43bf-4e4e-b6ed-3435236b48e6
+        - 0dca0a5e-43bf-4e4e-b6ed-3435236b48e6
         - 0dca0a5e-43bf-4e4e-b6ed-3435236b48e6
         - 0dca0a5e-43bf-4e4e-b6ed-3435236b48e6
         - 0dca0a5e-43bf-4e4e-b6ed-3435236b48e6
@@ -215,6 +225,10 @@ Resources:
       EnableDnsSupport: 'true'
       EnableDnsHostnames: 'true'
       CidrBlock: 10.0.0.0/16
+      Tags: 
+        - 
+          Key: "Name"
+          Value: "WebServerVPC"
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 6e4a5489-2846-4098-aab7-13976004eea7
@@ -230,6 +244,10 @@ Resources:
     Type: 'AWS::EC2::Instance'
     Properties:
       InstanceType: t2.micro
+      Tags: 
+        - 
+          Key: "Name"
+          Value: "WebServer"
       ImageId: !FindInMap 
         - AWSRegionArch2AMI
         - !Ref 'AWS::Region'
@@ -310,6 +328,10 @@ Resources:
           FromPort: '80'
           ToPort: '80'
           CidrIp: 0.0.0.0/0
+      Tags: 
+        - 
+          Key: "Name"
+          Value: "WebServerSG"
     Metadata:
       'AWS::CloudFormation::Designer':
         id: e08c1d7f-1221-4203-95fd-13561a346fdf
