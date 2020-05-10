@@ -218,6 +218,15 @@ Metadata:
       target:
         id: 418ee446-f01f-4915-a0fa-4cbf12ce3c55
       z: 1
+Parameters: 
+  Environment: 
+    Type: String
+    Default: DEV
+    AllowedValues: 
+      - DEV
+      - QA
+      - PROD
+    Description: Enter DEV, QA, or PROD. Default is DEV.
 Resources:
   VPC:
     Type: 'AWS::EC2::VPC'
@@ -228,7 +237,7 @@ Resources:
       Tags: 
         - 
           Key: "Name"
-          Value: "WebServerVPC"
+          Value: !Join [ '-', ['WebServerVPC', !Ref Environment] ]
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 6e4a5489-2846-4098-aab7-13976004eea7
@@ -247,7 +256,7 @@ Resources:
       Tags: 
         - 
           Key: "Name"
-          Value: "WebServer"
+          Value: !Join [ '-', ['WebServer', !Ref Environment] ]
       ImageId: !FindInMap 
         - AWSRegionArch2AMI
         - !Ref 'AWS::Region'
@@ -346,7 +355,7 @@ Resources:
       Tags: 
         - 
           Key: "Name"
-          Value: "WebServerSG"
+          Value: !Join [ '-', ['WebServerSG', !Ref Environment] ]
     Metadata:
       'AWS::CloudFormation::Designer':
         id: e08c1d7f-1221-4203-95fd-13561a346fdf
