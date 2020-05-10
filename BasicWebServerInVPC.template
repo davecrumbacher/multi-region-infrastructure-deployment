@@ -226,6 +226,7 @@ Parameters:
       - DEV
       - QA
       - PROD
+      - DR
     Description: Enter DEV, QA, or PROD. Default is DEV.
 Resources:
   VPC:
