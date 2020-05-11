@@ -218,11 +218,11 @@ Metadata:
       target:
         id: 418ee446-f01f-4915-a0fa-4cbf12ce3c55
       z: 1
-Parameters: 
-  Environment: 
+Parameters:
+  Environment:
     Type: String
     Default: DEV
-    AllowedValues: 
+    AllowedValues:
       - DEV
       - QA
       - PROD
@@ -235,8 +235,8 @@ Resources:
       EnableDnsSupport: true
       EnableDnsHostnames: true
       CidrBlock: 10.0.0.0/16
-      Tags: 
-        - 
+      Tags:
+        -
           Key: "Name"
           Value: !Join [ '-', ['WebServerVPC', !Ref Environment] ]
     Metadata:
@@ -253,15 +253,16 @@ Resources:
   WebServerInstance:
     Type: 'AWS::EC2::Instance'
     Properties:
+      KeyName: 'dwc-2018-01-25'
       InstanceType: t2.small
-      Tags: 
-        - 
+      Tags:
+        -
           Key: "Name"
           Value: !Join [ '-', ['WebServer', !Ref Environment] ]
-      ImageId: !FindInMap 
+      ImageId: !FindInMap
         - AWSRegionArch2AMI
         - !Ref 'AWS::Region'
-        - !FindInMap 
+        - !FindInMap
           - AWSInstanceType2Arch
           - t2.small
           - Arch
@@ -272,7 +273,7 @@ Resources:
           DeviceIndex: '0'
           DeleteOnTermination: true
           SubnetId: !Ref PublicSubnet
-      UserData: !Base64 
+      UserData: !Base64
         'Fn::Join':
           - ''
           - - |
@@ -313,7 +314,7 @@ Resources:
               jq: []
           files:
             /var/www/html/index.html:
-              content: !Join 
+              content: !Join
                 - |+
 
                 - - >-
@@ -324,7 +325,7 @@ Resources:
               group: root
           commands:
             config1:
-              command: "echo \"<h2>Web Server - !Ref Environment</h2>\" > /var/www/html/index.html"
+              command: !Join [ '', ['echo \<h2\>Web Server - ', !Ref Environment, '\</h2\> > /var/www/html/index.html'] ]
             config2:
               command: "echo \"<b>Instance ID:</b> `curl --silent http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .instanceId`\" >> /var/www/html/index.html"
             config3:
@@ -348,13 +349,17 @@ Resources:
           FromPort: 80
           ToPort: 80
           CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 75.103.205.169/32
       SecurityGroupEgress:
         - IpProtocol: tcp
           FromPort: 0
           ToPort: 65535
           CidrIp: 0.0.0.0/0
-      Tags: 
-        - 
+      Tags:
+        -
           Key: "Name"
           Value: !Join [ '-', ['WebServerSG', !Ref Environment] ]
     Metadata:
@@ -563,10 +568,10 @@ Mappings:
       HVMG2: NOT_SUPPORTED
 Outputs:
   URL:
-    Value: !Join 
+    Value: !Join
       - ''
       - - 'http://'
-        - !GetAtt 
+        - !GetAtt
           - WebServerInstance
           - PublicIp
     Description: Newly created application URL
