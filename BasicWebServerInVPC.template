@@ -253,7 +253,7 @@ Resources:
   WebServerInstance:
     Type: 'AWS::EC2::Instance'
     Properties:
-      InstanceType: t2.micro
+      InstanceType: t2.small
       Tags: 
         - 
           Key: "Name"
@@ -263,7 +263,7 @@ Resources:
         - !Ref 'AWS::Region'
         - !FindInMap 
           - AWSInstanceType2Arch
-          - t2.micro
+          - t2.small
           - Arch
       NetworkInterfaces:
         - GroupSet:
