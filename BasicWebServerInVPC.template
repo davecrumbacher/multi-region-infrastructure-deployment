@@ -253,7 +253,6 @@ Resources:
   WebServerInstance:
     Type: 'AWS::EC2::Instance'
     Properties:
-      KeyName: 'dwc-2018-01-25'
       InstanceType: t2.small
       Tags:
         -
