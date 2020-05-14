@@ -224,10 +224,9 @@ Parameters:
     Default: DEV
     AllowedValues:
       - DEV
-      - QA
       - PROD
       - DR
-    Description: Enter DEV, QA, or PROD. Default is DEV.
+    Description: Enter DEV, PROD, or DR. Default is DEV.
 Resources:
   VPC:
     Type: 'AWS::EC2::VPC'
@@ -254,6 +253,7 @@ Resources:
     Type: 'AWS::EC2::Instance'
     Properties:
       InstanceType: t2.medium
+      KeyName: 'dwc-demo'
       Tags:
         -
           Key: "Name"
@@ -310,27 +310,15 @@ Resources:
           packages:
             yum:
               httpd: []
-              jq: []
-          files:
-            /var/www/html/index.html:
-              content: !Join
-                - |+
-
-                - - >-
-                    <h1>Congratulations, you have successfully launched the AWS
-                    CloudFormation sample.</h1>
-              mode: '000644'
-              owner: root
-              group: root
+              php: []
+              git: []
           commands:
             config1:
-              command: !Join [ '', ['echo \<h2\>Web Server - ', !Ref Environment, '\</h2\> > /var/www/html/index.html'] ]
+              command: "git clone https://github.com/davecrumbacher/aws-metadata-php-page.git /var/www/html"
             config2:
-              command: "echo \"<b>Instance ID:</b> `curl --silent http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .instanceId`\" >> /var/www/html/index.html"
+              command: !Join [ '', ['sed -i -e "s/ENV/', !Ref Environment, '/g" /var/www/html/index.php'] ]
             config3:
-              command: "echo \"<br/><b>Instance Type:</b> `curl --silent http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .instanceType`\" >> /var/www/html/index.html"
-            config4:
-              command: "echo \"<br/><b>Region:</b> `curl --silent http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region`\" >> /var/www/html/index.html"
+              command: "service httpd restart"
           services:
             sysvinit:
               httpd:
@@ -338,6 +326,14 @@ Resources:
                 ensureRunning: 'true'
     DependsOn:
       - PublicRoute
+  ElasticIP:
+    Type: AWS::EC2::EIPAssociation
+    Properties:
+      AllocationId: !FindInMap
+        - EIPS
+        - !Ref Environment
+        - eip
+      InstanceId: !Ref WebServerInstance
   WebServerSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
@@ -565,6 +561,13 @@ Mappings:
     cn-northwest-1:
       HVM64: ami-6b6a7d09
       HVMG2: NOT_SUPPORTED
+  EIPS:
+    DEV:
+      eip: eipalloc-08e897117711b8f92
+    PROD:
+      eip: eipalloc-0432701e267fe21a7
+    DR:
+      eip: eipalloc-08b3fce01c6088398
 Outputs:
   URL:
     Value: !Join
