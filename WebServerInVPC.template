@@ -252,7 +252,7 @@ Resources:
   WebServerInstance:
     Type: 'AWS::EC2::Instance'
     Properties:
-      InstanceType: t2.small
+      InstanceType: t2.medium
       KeyName: 'dwc-demo'
       Tags:
         -
@@ -263,7 +263,7 @@ Resources:
         - !Ref 'AWS::Region'
         - !FindInMap
           - AWSInstanceType2Arch
-          - t2.small
+          - t2.medium
           - Arch
       NetworkInterfaces:
         - GroupSet:
