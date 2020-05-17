@@ -567,7 +567,7 @@ Mappings:
     PROD:
       eip: eipalloc-0432701e267fe21a7
     DR:
-      eip: eipalloc-08b3fce01c6088398
+      eip: eipalloc-0dffa6124ff438d43
 Outputs:
   URL:
     Value: !Join
