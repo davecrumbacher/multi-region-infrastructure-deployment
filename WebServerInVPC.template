@@ -576,4 +576,4 @@ Outputs:
         - !GetAtt
           - WebServerInstance
           - PublicIp
-    Description: Newly created application URL
+    Description: Newly created web app URL
